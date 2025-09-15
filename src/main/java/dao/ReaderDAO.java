@@ -7,24 +7,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import database.ConnectDB;
-import models.User;
+import models.Reader;
 
-public class UserDAO implements DAOInterface<User> {
+public class ReaderDAO implements DAOInterface<Reader> {
 
-    private static UserDAO instance = new UserDAO();
+    private static ReaderDAO instance = new ReaderDAO();
 
-    private UserDAO() {
+    private ReaderDAO() {
     }
 
-    public static UserDAO getInstance() {
+    public static ReaderDAO getInstance() {
         return instance;
     }
 
     @Override
-    public int delete(User t) {
+    public int delete(Reader t) {
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "DELETE FROM users WHERE id = ?";
+            String sql = "DELETE FROM readers WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, t.getId());
 
@@ -40,13 +40,14 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public int insert(User t) {
+    public int insert(Reader t) {
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
+            String sql = "INSERT INTO readers (name, user_id) VALUES (?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, t.getEmail());
-            ps.setString(2, t.getPassword());
+            ps.setString(1, t.getName());
+            ps.setInt(2, t.getUserId());
+
             int result = ps.executeUpdate();
 
             ps.close();
@@ -59,27 +60,26 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public ArrayList<User> selectAll() {
-        ArrayList<User> users = new ArrayList<>();
+    public ArrayList<Reader> selectAll() {
+        ArrayList<Reader> readers = new ArrayList<>();
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "SELECT * FROM users";
+            String sql = "SELECT * FROM readers";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String role = rs.getString("role");
+                String name = rs.getString("name");
+                int user_id = rs.getInt("user_id");
 
-                users.add(new User(id, email, password, role));
+                readers.add(new Reader(id, name, user_id));
             }
 
             rs.close();
             ps.close();
             ConnectDB.disconnect(conn);
-            return users;
+            return readers;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -87,27 +87,26 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public ArrayList<User> selectByCondition(String condition) {
-        ArrayList<User> users = new ArrayList<>();
+    public ArrayList<Reader> selectByCondition(String condition) {
+        ArrayList<Reader> readers = new ArrayList<>();
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "SELECT * FROM users WHERE " + condition;
+            String sql = "SELECT * FROM readers WHERE " + condition;
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String role = rs.getString("role");
+                String name = rs.getString("name");
+                int user_id = rs.getInt("user_id");
 
-                users.add(new User(id, email, password, role));
+                readers.add(new Reader(id, name, user_id));
             }
 
             rs.close();
             ps.close();
             ConnectDB.disconnect(conn);
-            return users;
+            return readers;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -115,27 +114,26 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public User selectById(int id) {
-        User user = null;
+    public Reader selectById(int id) {
+        Reader reader = null;
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "SELECT * FROM users WHERE id = ?";
+            String sql = "SELECT * FROM readers WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String role = rs.getString("role");
+                String name = rs.getString("name");
+                int user_id = rs.getInt("user_id");
 
-                user = new User(id, email, password, role);
+                reader = new Reader(id, name, user_id);
             }
 
             rs.close();
             ps.close();
             ConnectDB.disconnect(conn);
-            return user;
+            return reader;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -143,13 +141,13 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public int update(User t) {
+    public int update(Reader t) {
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "UPDATE users SET password = ?, role = ? WHERE id = ?";
+            String sql = "UPDATE readers SET name = ?, user_id = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, t.getPassword());
-            ps.setString(2, t.getRole());
+            ps.setString(1, t.getName());
+            ps.setInt(2, t.getUserId());
             ps.setInt(3, t.getId());
 
             int result = ps.executeUpdate();

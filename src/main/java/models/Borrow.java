@@ -38,19 +38,19 @@ public class Borrow {
         this.id = id;
     }
 
-    public int getReader_id() {
+    public int getReaderId() {
         return reader_id;
     }
 
-    public void setReader_id(int reader_id) {
+    public void setReaderId(int reader_id) {
         this.reader_id = reader_id;
     }
 
-    public int getBook_id() {
+    public int getBookId() {
         return book_id;
     }
 
-    public void setBook_id(int book_id) {
+    public void setBookId(int book_id) {
         this.book_id = book_id;
     }
 

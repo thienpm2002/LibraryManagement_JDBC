@@ -7,24 +7,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import database.ConnectDB;
-import models.User;
+import models.Book;
 
-public class UserDAO implements DAOInterface<User> {
+public class BookDAO implements DAOInterface<Book> {
 
-    private static UserDAO instance = new UserDAO();
+    private static BookDAO instance = new BookDAO();
 
-    private UserDAO() {
+    private BookDAO() {
     }
 
-    public static UserDAO getInstance() {
+    public static BookDAO getInstance() {
         return instance;
     }
 
     @Override
-    public int delete(User t) {
+    public int delete(Book t) {
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "DELETE FROM users WHERE id = ?";
+            String sql = "DELETE FROM books WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, t.getId());
 
@@ -40,13 +40,16 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public int insert(User t) {
+    public int insert(Book t) {
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
+            String sql = "INSERT INTO books (name, author, stock, category) VALUES (?, ?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, t.getEmail());
-            ps.setString(2, t.getPassword());
+            ps.setString(1, t.getName());
+            ps.setString(2, t.getAuthor());
+            ps.setInt(3, t.getStock());
+            ps.setString(4, t.getCategory());
+
             int result = ps.executeUpdate();
 
             ps.close();
@@ -59,27 +62,27 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public ArrayList<User> selectAll() {
-        ArrayList<User> users = new ArrayList<>();
+    public ArrayList<Book> selectAll() {
+        ArrayList<Book> books = new ArrayList<>();
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "SELECT * FROM users";
+            String sql = "SELECT * FROM books";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ResultSet result = ps.executeQuery();
 
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String role = rs.getString("role");
-
-                users.add(new User(id, email, password, role));
+            while (result.next()) {
+                int id = result.getInt("id");
+                String name = result.getString("name");
+                String author = result.getString("author");
+                String category = result.getString("category");
+                int stock = result.getInt("stock");
+                books.add(new Book(id, name, author, stock, category));
             }
 
-            rs.close();
+            result.close();
             ps.close();
             ConnectDB.disconnect(conn);
-            return users;
+            return books;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -87,27 +90,27 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public ArrayList<User> selectByCondition(String condition) {
-        ArrayList<User> users = new ArrayList<>();
+    public ArrayList<Book> selectByCondition(String condition) {
+        ArrayList<Book> books = new ArrayList<>();
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "SELECT * FROM users WHERE " + condition;
+            String sql = "SELECT * FROM books WHERE " + condition;
             PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ResultSet result = ps.executeQuery();
 
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String role = rs.getString("role");
-
-                users.add(new User(id, email, password, role));
+            while (result.next()) {
+                int id = result.getInt("id");
+                String name = result.getString("name");
+                String author = result.getString("author");
+                String category = result.getString("category");
+                int stock = result.getInt("stock");
+                books.add(new Book(id, name, author, stock, category));
             }
 
-            rs.close();
+            result.close();
             ps.close();
             ConnectDB.disconnect(conn);
-            return users;
+            return books;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -115,27 +118,27 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public User selectById(int id) {
-        User user = null;
+    public Book selectById(int id) {
+        Book book = null;
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "SELECT * FROM users WHERE id = ?";
+            String sql = "SELECT * FROM books WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            ResultSet result = ps.executeQuery();
 
-            if (rs.next()) {
-                String email = rs.getString("email");
-                String password = rs.getString("password");
-                String role = rs.getString("role");
-
-                user = new User(id, email, password, role);
+            if (result.next()) {
+                String name = result.getString("name");
+                String author = result.getString("author");
+                String category = result.getString("category");
+                int stock = result.getInt("stock");
+                book = new Book(id, name, author, stock, category);
             }
 
-            rs.close();
+            result.close();
             ps.close();
             ConnectDB.disconnect(conn);
-            return user;
+            return book;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -143,14 +146,12 @@ public class UserDAO implements DAOInterface<User> {
     }
 
     @Override
-    public int update(User t) {
+    public int update(Book t) {
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "UPDATE users SET password = ?, role = ? WHERE id = ?";
+            String sql = "UPDATE books SET stock = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, t.getPassword());
-            ps.setString(2, t.getRole());
-            ps.setInt(3, t.getId());
+            ps.setInt(1, t.getStock());
 
             int result = ps.executeUpdate();
 

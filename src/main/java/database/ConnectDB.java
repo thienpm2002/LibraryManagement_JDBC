@@ -16,7 +16,7 @@ public class ConnectDB {
             return conn;
         } catch (SQLException e) {
             // TODO: handle exception
-            System.out.println("Lỗi kết nối: " + e.getMessage());
+            System.out.println("Error connect: " + e.getMessage());
             return null;
         }
     }
@@ -25,10 +25,10 @@ public class ConnectDB {
         try {
             if (conn != null) {
                 conn.close();
-                System.out.println("Dong ket noi thanh cong");
+                System.out.println("Disconnect successfully");
             }
         } catch (Exception e) {
-            System.out.println("Lỗi kết nối: " + e.getMessage());
+            System.out.println("Error disconnect: " + e.getMessage());
         }
     }
 }
