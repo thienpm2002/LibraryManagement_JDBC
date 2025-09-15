@@ -4,12 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class ConnectDB {
     public static Connection connect() {
-        String url = "jdbc:mysql://localhost:3306/library_management";
-        String user = "root";
-        String password = "123456";
-
+        Dotenv dotenv = Dotenv.load();
+        String url = dotenv.get("DB_URL");
+        String user = dotenv.get("DB_USER");
+        String password = dotenv.get("DB_PASS");
         try {
             Connection conn = DriverManager.getConnection(url, user, password);
             System.out.println("Database connect successfully!");
