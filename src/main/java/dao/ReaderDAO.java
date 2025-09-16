@@ -115,7 +115,7 @@ public class ReaderDAO implements DAOInterface<Reader> {
 
     @Override
     public Reader selectById(int id) {
-        Reader reader = null;
+        Reader reader = new Reader();
         try {
             Connection conn = ConnectDB.connect();
             String sql = "SELECT * FROM readers WHERE id = ?";
@@ -126,6 +126,32 @@ public class ReaderDAO implements DAOInterface<Reader> {
             if (rs.next()) {
                 String name = rs.getString("name");
                 int user_id = rs.getInt("user_id");
+
+                reader = new Reader(id, name, user_id);
+            }
+
+            rs.close();
+            ps.close();
+            ConnectDB.disconnect(conn);
+            return reader;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public Reader selectByUserId(int user_id) {
+        Reader reader = new Reader();
+        try {
+            Connection conn = ConnectDB.connect();
+            String sql = "SELECT * FROM readers WHERE user_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, user_id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                int id = rs.getInt("id");
 
                 reader = new Reader(id, name, user_id);
             }

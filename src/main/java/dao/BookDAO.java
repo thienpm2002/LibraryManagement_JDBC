@@ -119,7 +119,7 @@ public class BookDAO implements DAOInterface<Book> {
 
     @Override
     public Book selectById(int id) {
-        Book book = null;
+        Book book = new Book();
         try {
             Connection conn = ConnectDB.connect();
             String sql = "SELECT * FROM books WHERE id = ?";
@@ -152,7 +152,7 @@ public class BookDAO implements DAOInterface<Book> {
             String sql = "UPDATE books SET stock = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, t.getStock());
-
+            ps.setInt(2, t.getId());
             int result = ps.executeUpdate();
 
             ps.close();

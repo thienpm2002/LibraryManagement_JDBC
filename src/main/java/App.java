@@ -1,7 +1,10 @@
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import controller.ReaderController;
 import controller.UserController;
+import models.Book;
 import models.User;
 
 /**
@@ -62,8 +65,29 @@ public class App {
                                 userAction = s.nextInt();
                                 s.nextLine();
                                 switch (userAction) {
-                                    case 1:
-
+                                    case 1: {
+                                        ArrayList<Book> books = ReaderController.getBooks();
+                                        if (books.size() == 0)
+                                            System.out.println("List book is empty");
+                                        else {
+                                            for (Book book : books) {
+                                                System.out.println(book.toString());
+                                            }
+                                        }
+                                        break;
+                                    }
+                                    case 2: {
+                                        System.out.println("Enter book_id: ");
+                                        int book_id = s.nextInt();
+                                        s.nextLine();
+                                        System.out.println("Enter stock: ");
+                                        int stock = s.nextInt();
+                                        s.nextLine();
+                                        boolean res = ReaderController.borrowBook(user.getId(), book_id, stock);
+                                        if (res)
+                                            System.out.println("Borrow sucessfully!");
+                                        break;
+                                    }
                                     case 0: {
                                         System.out.println("Logout successlly!");
                                         break;
@@ -90,29 +114,8 @@ public class App {
                     int result = UserController.register(email, password, name);
                     if (result == -1) {
                         System.out.println("Email is exist");
-                    } else {
-                        int userAction;
-                        do {
-                            System.out.println("------------------ Home ----------------------");
-                            System.out.println("1.List book");
-                            System.out.println("2.Borrow book");
-                            System.out.println("0. Logout");
-                            System.out.println("Enter: ");
-                            userAction = s.nextInt();
-                            s.nextLine();
-                            switch (userAction) {
-                                case 1:
-
-                                case 0: {
-                                    System.out.println("Exit successlly!");
-                                    break;
-                                }
-
-                                default:
-                                    break;
-                            }
-                        } while (userAction != 0);
-                    }
+                    } else
+                        System.out.println("Register successfully!");
 
                     break;
                 }

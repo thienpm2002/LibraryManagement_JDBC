@@ -43,11 +43,11 @@ public class BorrowDAO implements DAOInterface<Borrow> {
     public int insert(Borrow t) {
         try {
             Connection conn = ConnectDB.connect();
-            String sql = "INSERT INTO borrows (reader_id, book_id) VALUES (?, ?)";
+            String sql = "INSERT INTO borrows (reader_id, book_id, quantity) VALUES (?, ?, ?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, t.getReaderId());
             ps.setInt(2, t.getBookId());
-
+            ps.setInt(3, t.getQuantity());
             int result = ps.executeUpdate();
 
             ps.close();
@@ -72,10 +72,11 @@ public class BorrowDAO implements DAOInterface<Borrow> {
                 int id = rs.getInt("id");
                 int readerId = rs.getInt("reader_id");
                 int bookId = rs.getInt("book_id");
+                int quantity = rs.getInt("quantity");
                 java.sql.Date borrowDate = rs.getDate("borrow_date");
                 java.sql.Date returnDate = rs.getDate("return_date");
                 String status = rs.getString("status");
-                borrows.add(new Borrow(id, readerId, bookId, borrowDate, returnDate, status));
+                borrows.add(new Borrow(id, readerId, bookId, quantity, borrowDate, returnDate, status));
             }
 
             rs.close();
@@ -101,10 +102,11 @@ public class BorrowDAO implements DAOInterface<Borrow> {
                 int id = rs.getInt("id");
                 int readerId = rs.getInt("reader_id");
                 int bookId = rs.getInt("book_id");
-                java.sql.Date borrowDate = rs.getDate("borrow_date");
-                java.sql.Date returnDate = rs.getDate("return_date");
+                int quantity = rs.getInt("quantity");
+                java.sql.Date borrowDate = rs.getDate("borrowDate");
+                java.sql.Date returnDate = rs.getDate("returnDate");
                 String status = rs.getString("status");
-                borrows.add(new Borrow(id, readerId, bookId, borrowDate, returnDate, status));
+                borrows.add(new Borrow(id, readerId, bookId, quantity, borrowDate, returnDate, status));
             }
 
             rs.close();
@@ -130,10 +132,11 @@ public class BorrowDAO implements DAOInterface<Borrow> {
             if (rs.next()) {
                 int readerId = rs.getInt("reader_id");
                 int bookId = rs.getInt("book_id");
+                int quantity = rs.getInt("quantity");
                 java.sql.Date borrowDate = rs.getDate("borrow_date");
                 java.sql.Date returnDate = rs.getDate("return_date");
                 String status = rs.getString("status");
-                borrow = new Borrow(id, readerId, bookId, borrowDate, returnDate, status);
+                borrow = new Borrow(id, readerId, bookId, quantity, borrowDate, returnDate, status);
             }
 
             rs.close();
