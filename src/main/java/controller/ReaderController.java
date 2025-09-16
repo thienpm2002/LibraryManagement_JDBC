@@ -1,5 +1,6 @@
 package controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import dao.BookDAO;
@@ -27,7 +28,7 @@ public class ReaderController {
         }
 
         if (book.getStock() < quantity) {
-            System.out.println("Stock invalid");
+            System.out.println("Quantity invalid");
             return false;
         }
 
@@ -51,6 +52,36 @@ public class ReaderController {
         int stock = book.getStock() - quantity;
         book.setStock(stock);
         bookDao.update(book);
+        return true;
+    }
+
+    public static boolean returnBook(int user_id, int book_id) {
+        Book book = bookDao.selectById(book_id);
+
+        if (book.getId() == 0) {
+            System.out.println("Book is exist");
+            return false;
+        }
+
+        Reader reader = readerDao.selectByUserId(user_id);
+        if (reader.getId() == 0)
+            return false;
+
+        String condition = "reader_id = '" + reader.getId() + "' AND book_id = '" + book_id + "'";
+        ArrayList<Borrow> borrows = borrowDao.selectByCondition(condition);
+        if (borrows.size() == 0) {
+            System.out.println("You have not borrowed this book.");
+            return false;
+        }
+        Borrow borrow = borrows.get(0);
+        borrow.setStatus("returned");
+        borrow.setReturnDate(new Timestamp(System.currentTimeMillis()));
+        borrowDao.update(borrow);
+
+        int stock = book.getStock() + borrow.getQuantity();
+        book.setStock(stock);
+        bookDao.update(book);
+
         return true;
     }
 }

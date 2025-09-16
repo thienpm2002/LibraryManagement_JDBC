@@ -1,20 +1,21 @@
 package models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Borrow {
     private int id;
     private int reader_id;
     private int book_id;
     private int quantity;
-    private Date borrowDate;
-    private Date returnDate;
+    private Timestamp borrowDate;
+    private Timestamp returnDate;
     private String status;
 
     public Borrow() {
     }
 
-    public Borrow(int id, int reader_id, int book_id, int quantity, Date borrowDate, Date returnDate, String status) {
+    public Borrow(int id, int reader_id, int book_id, int quantity, Timestamp borrowDate, Timestamp returnDate,
+            String status) {
         this.id = id;
         this.reader_id = reader_id;
         this.book_id = book_id;
@@ -62,19 +63,19 @@ public class Borrow {
         this.book_id = book_id;
     }
 
-    public Date getBorrowDate() {
+    public Timestamp getBorrowDate() {
         return borrowDate;
     }
 
-    public void setBorrowDate(Date borrowDate) {
+    public void setBorrowDate(Timestamp borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public Date getReturnDate() {
+    public Timestamp getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(Timestamp returnDate) {
         this.returnDate = returnDate;
     }
 

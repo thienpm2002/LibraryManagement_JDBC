@@ -60,6 +60,7 @@ public class App {
                                 System.out.println("------------------ Home ----------------------");
                                 System.out.println("1.List book");
                                 System.out.println("2.Borrow book");
+                                System.out.println("3.Return book");
                                 System.out.println("0. Logout");
                                 System.out.println("Enter: ");
                                 userAction = s.nextInt();
@@ -80,12 +81,21 @@ public class App {
                                         System.out.println("Enter book_id: ");
                                         int book_id = s.nextInt();
                                         s.nextLine();
-                                        System.out.println("Enter stock: ");
-                                        int stock = s.nextInt();
+                                        System.out.println("Enter quantity: ");
+                                        int quantity = s.nextInt();
                                         s.nextLine();
-                                        boolean res = ReaderController.borrowBook(user.getId(), book_id, stock);
+                                        boolean res = ReaderController.borrowBook(user.getId(), book_id, quantity);
                                         if (res)
                                             System.out.println("Borrow sucessfully!");
+                                        break;
+                                    }
+                                    case 3: {
+                                        System.out.println("Enter book_id: ");
+                                        int book_id = s.nextInt();
+                                        s.nextLine();
+                                        boolean res = ReaderController.returnBook(user.getId(), book_id);
+                                        if (res)
+                                            System.out.println("Return sucessfully!");
                                         break;
                                     }
                                     case 0: {
