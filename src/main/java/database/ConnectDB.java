@@ -14,10 +14,8 @@ public class ConnectDB {
         String password = dotenv.get("DB_PASS");
         try {
             Connection conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Database connect successfully!");
             return conn;
         } catch (SQLException e) {
-            // TODO: handle exception
             System.out.println("Error connect: " + e.getMessage());
             return null;
         }
@@ -27,7 +25,6 @@ public class ConnectDB {
         try {
             if (conn != null) {
                 conn.close();
-                System.out.println("Disconnect successfully");
             }
         } catch (Exception e) {
             System.out.println("Error disconnect: " + e.getMessage());

@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import database.ConnectDB;
-import models.Book;
 import models.Borrow;
 
 public class BorrowDAO implements DAOInterface<Borrow> {

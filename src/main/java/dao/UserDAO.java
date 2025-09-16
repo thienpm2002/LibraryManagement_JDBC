@@ -116,7 +116,7 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public User selectById(int id) {
-        User user = null;
+        User user = new User();
         try {
             Connection conn = ConnectDB.connect();
             String sql = "SELECT * FROM users WHERE id = ?";
@@ -126,6 +126,33 @@ public class UserDAO implements DAOInterface<User> {
 
             if (rs.next()) {
                 String email = rs.getString("email");
+                String password = rs.getString("password");
+                String role = rs.getString("role");
+
+                user = new User(id, email, password, role);
+            }
+
+            rs.close();
+            ps.close();
+            ConnectDB.disconnect(conn);
+            return user;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public User selectByEmail(String email) {
+        User user = new User();
+        try {
+            Connection conn = ConnectDB.connect();
+            String sql = "SELECT * FROM users WHERE email = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
                 String password = rs.getString("password");
                 String role = rs.getString("role");
 
