@@ -43,4 +43,9 @@ public class Reader {
         this.user_id = user_id;
     }
 
+    @Override
+    public String toString() {
+        return "Reader [id=" + id + ", name=" + name + ", user_id=" + user_id + "]";
+    }
+
 }

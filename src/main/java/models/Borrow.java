@@ -78,4 +78,10 @@ public class Borrow {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Borrow [id=" + id + ", reader_id=" + reader_id + ", book_id=" + book_id + ", borrowDate=" + borrowDate
+                + ", returnDate=" + returnDate + ", status=" + status + "]";
+    }
+
 }
