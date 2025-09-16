@@ -38,7 +38,9 @@ public class App {
                             do {
                                 System.out.println("------------------ Admin ----------------------");
                                 System.out.println("1.Insert book");
-                                System.out.println("2.Delete book");
+                                System.out.println("2.Update book");
+                                System.out.println("3.Delete book");
+                                System.out.println("4.Delete user");
                                 System.out.println("0. Logout");
                                 System.out.println("Enter: ");
                                 userAction = s.nextInt();
@@ -61,6 +63,7 @@ public class App {
                                 System.out.println("1.List book");
                                 System.out.println("2.Borrow book");
                                 System.out.println("3.Return book");
+                                System.out.println("4.Update name");
                                 System.out.println("0. Logout");
                                 System.out.println("Enter: ");
                                 userAction = s.nextInt();
@@ -96,6 +99,14 @@ public class App {
                                         boolean res = ReaderController.returnBook(user.getId(), book_id);
                                         if (res)
                                             System.out.println("Return sucessfully!");
+                                        break;
+                                    }
+                                    case 4: {
+                                        System.out.println("Enter new name: ");
+                                        String newName = s.nextLine();
+                                        boolean res = ReaderController.updateName(user.getId(), newName);
+                                        if (res)
+                                            System.out.println("Update name sucessfully!");
                                         break;
                                     }
                                     case 0: {

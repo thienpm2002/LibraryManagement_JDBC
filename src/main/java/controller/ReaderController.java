@@ -84,4 +84,13 @@ public class ReaderController {
 
         return true;
     }
+
+    public static boolean updateName(int user_id, String name) {
+        Reader reader = readerDao.selectByUserId(user_id);
+        if (reader.getId() == 0)
+            return false;
+        reader.setName(name);
+        readerDao.update(reader);
+        return true;
+    }
 }
