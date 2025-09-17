@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import dao.ReaderDAO;
 import dao.UserDAO;
+import models.Book;
 import models.Reader;
 import models.User;
 
@@ -34,6 +35,10 @@ public class UserController {
         Reader reader = new Reader(name, newUser.getId());
         int insertReader = readerDao.insert(reader);
         return insertReader;
+    }
+
+    public static ArrayList<User> getUsers() {
+        return userDao.selectAll();
     }
 
 }

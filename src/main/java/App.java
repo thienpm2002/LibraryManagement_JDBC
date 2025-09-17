@@ -42,7 +42,8 @@ public class App {
                                 System.out.println("2.Insert book");
                                 System.out.println("3.Update book");
                                 System.out.println("4.Delete book");
-                                System.out.println("5.Delete user");
+                                System.out.println("5.List user");
+                                System.out.println("6.Delete user");
                                 System.out.println("0. Logout");
                                 System.out.println("Enter: ");
                                 userAction = s.nextInt();
@@ -104,6 +105,18 @@ public class App {
                                         else
                                             System.out.println("Delete book fail!");
 
+                                        break;
+                                    }
+
+                                    case 5: {
+                                        ArrayList<User> users = UserController.getUsers();
+                                        if (users.size() == 0)
+                                            System.out.println("List book is empty");
+                                        else {
+                                            for (User u : users) {
+                                                System.out.println(u.toString());
+                                            }
+                                        }
                                         break;
                                     }
 
