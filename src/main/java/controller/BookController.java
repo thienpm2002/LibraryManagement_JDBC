@@ -26,4 +26,13 @@ public class BookController {
         book.setStock(stock);
         return bookDao.update(book);
     }
+
+    public static int deleteBook(int book_id) {
+        Book book = bookDao.selectById(book_id);
+        if (book.getId() == 0) {
+            System.out.println("Book is not exist");
+            return 0;
+        }
+        return bookDao.delete(book);
+    }
 }

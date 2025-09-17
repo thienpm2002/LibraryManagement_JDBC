@@ -80,7 +80,7 @@ public class App {
                                     }
 
                                     case 3: {
-                                        System.out.println(" Book id:");
+                                        System.out.println("Book id:");
                                         int book_id = s.nextInt();
                                         System.out.println(" New stock:");
                                         int stock = s.nextInt();
@@ -90,6 +90,19 @@ public class App {
                                             System.out.println("Update book successlly!");
                                         else
                                             System.out.println("Update book fail!");
+
+                                        break;
+                                    }
+
+                                    case 4: {
+                                        System.out.println("Book id:");
+                                        int book_id = s.nextInt();
+
+                                        int result = BookController.deleteBook(book_id);
+                                        if (result > 0)
+                                            System.out.println("Delete book successlly!");
+                                        else
+                                            System.out.println("Delete book fail!");
 
                                         break;
                                     }
