@@ -120,6 +120,19 @@ public class App {
                                         break;
                                     }
 
+                                    case 6: {
+                                        System.out.println("User id:");
+                                        int user_id = s.nextInt();
+
+                                        int result = UserController.deleteUser(user_id);
+                                        if (result > 0)
+                                            System.out.println("Delete user successlly!");
+                                        else
+                                            System.out.println("Delete user fail!");
+
+                                        break;
+                                    }
+
                                     case 0: {
                                         System.out.println("Logout successlly!");
                                         break;

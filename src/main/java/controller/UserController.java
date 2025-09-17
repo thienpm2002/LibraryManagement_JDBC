@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import dao.ReaderDAO;
 import dao.UserDAO;
-import models.Book;
 import models.Reader;
 import models.User;
 
@@ -39,6 +38,19 @@ public class UserController {
 
     public static ArrayList<User> getUsers() {
         return userDao.selectAll();
+    }
+
+    public static int deleteUser(int user_id) {
+        User user = userDao.selectById(user_id);
+        if (user.getId() == 0) {
+            System.out.println("User is not exist");
+            return 0;
+        }
+        if ("admin".equals(user.getRole())) {
+            System.out.println("Can not delete admin");
+            return 0;
+        }
+        return userDao.delete(user);
     }
 
 }
