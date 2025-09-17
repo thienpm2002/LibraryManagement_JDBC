@@ -15,10 +15,6 @@ public class ReaderController {
     static BorrowDAO borrowDao = BorrowDAO.getInstance();
     static ReaderDAO readerDao = ReaderDAO.getInstance();
 
-    public static ArrayList<Book> getBooks() {
-        return bookDao.selectAll();
-    }
-
     public static boolean borrowBook(int user_id, int book_id, int quantity) {
         Book book = bookDao.selectById(book_id);
 
