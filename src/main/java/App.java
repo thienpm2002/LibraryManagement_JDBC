@@ -79,6 +79,21 @@ public class App {
                                         break;
                                     }
 
+                                    case 3: {
+                                        System.out.println(" Book id:");
+                                        int book_id = s.nextInt();
+                                        System.out.println(" New stock:");
+                                        int stock = s.nextInt();
+
+                                        int result = BookController.updateBook(book_id, stock);
+                                        if (result > 0)
+                                            System.out.println("Update book successlly!");
+                                        else
+                                            System.out.println("Update book fail!");
+
+                                        break;
+                                    }
+
                                     case 0: {
                                         System.out.println("Logout successlly!");
                                         break;
